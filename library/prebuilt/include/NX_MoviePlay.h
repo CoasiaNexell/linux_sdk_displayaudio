@@ -180,6 +180,10 @@ MP_RESULT	NX_MPSetVideoSpeed( MP_HANDLE hMp, float Speed  ); //support file:avi,
 MP_RESULT   NX_MPGetVideoSpeedSupport( MP_HANDLE hMp );		   // support file:avi,mkv,mp4
 //A/V Sync
 MP_RESULT	NX_MPSetAVSync( MP_HANDLE hMp, int64_t syncTimeMs ); //syncTime +,-, ms
+//Fast Seek, Only .mp3 file
+//Used for large files
+//On:1, Off:0
+MP_RESULT NX_MPSetFastSeek( MP_HANDLE hMp, int32_t  bOnOff);  //only .mp3
 #endif
 
 //Dual Display
