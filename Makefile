@@ -59,11 +59,6 @@ endif
 ifeq ($(QT_CONF_PATH), )
 export QT_CONF_PATH = $(NX_QT_CONF_PATH)
 endif
-ifeq ($(NX_DAUDIO_ENABLE_BT), )
-export SDK_ENABLE_BT = yes
-else
-export SDK_ENABLE_BT = $(NX_DAUDIO_ENABLE_BT)
-endif
 ifeq ($(NX_DAUDIO_ENABLE_CAM), )
 export SDK_ENABLE_CAM = yes
 else
@@ -96,16 +91,11 @@ QT_LIBS += libnxbaseui
 
 APPS :=
 APPS += KeyInputSender
-APPS += NxBTService
-APPS += NxBTServiceConsole
 APPS += NxCommandSender
 
 QT_APPS :=
 QT_APPS += NxAudioPlayer
 QT_APPS += NxAVIn
-QT_APPS += NxBTAudio
-QT_APPS += NxBTPhone
-QT_APPS += NxBTSettings
 QT_APPS += NxLauncher
 QT_APPS += NxRearCam
 QT_APPS += NxVideoPlayer

@@ -53,18 +53,6 @@ function package_sdk_qtapplications()
 
 	package_luncher_application
 
-	if [ ${SDK_ENABLE_BT} == "yes" ]; then
-		package_bt_service_application
-		package_sdk_qtapplication NxBTAudio
-		package_sdk_qtapplication NxBTPhone
-		package_sdk_qtapplication NxBTSettings
-	elif [ ${SDK_ENABLE_BT} == "no" ]; then
-		unpackage_bt_service_application
-		unpackage_sdk_qtapplication NxBTAudio
-		unpackage_sdk_qtapplication NxBTPhone
-		unpackage_sdk_qtapplication NxBTSettings
-	fi
-
 	if [ ${SDK_ENABLE_CAM} == "yes" ]; then
 		if [ ${TARGET_MACHINE} == "s5p4418-daudio-ref" ]; then
 			package_sdk_qtapplication NxAVIn
@@ -102,35 +90,6 @@ function package_luncher_application()
 		cp -apvR ${TOP}/apps/${app_name}/configs/nxp3220_evb2.xml ${RESULT_DIR}/${QT_APP_ROOT}/daudio.xml
 	else
 		cp -apvR ${TOP}/apps/${app_name}/configs/s5p4418_daudio_ref.xml ${RESULT_DIR}/${QT_APP_ROOT}/daudio.xml
-	fi
-}
-
-function package_bt_service_application()
-{
-	local app_name=NxBTService
-	echo "<< Package ${app_name} >>"
-
-	mkdir -p ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}
-	cp -apvR ${TOP}/apps/${app_name}/*.so ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/
-	cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/${app_name}.desktop ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/
-	if [ ${TARGET_MACHINE} == "s5p4418-convergence-daudio" ]; then
-		cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/nxbtservice_config_convergence_daudio.xml ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/nxbtservice_config.xml
-	elif [ ${TARGET_MACHINE} == "nxp3220-daudio" ]; then
-		cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/nxbtservice_config_nxp3220_daudio.xml ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/nxbtservice_config.xml
-	elif [ ${TARGET_MACHINE} == "nxp3220-daudio2" ]; then
-		cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/nxbtservice_config_nxp3220_daudio2.xml ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/nxbtservice_config.xml
-	elif [ ${TARGET_MACHINE} == "nxp3220-evb2" ]; then
-		cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/nxbtservice_config_nxp3220_evb2.xml ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/nxbtservice_config.xml
-	else
-		cp -apvR ${TOP}/apps/${app_name}/${PACKAGE_DIR}/nxbtservice_config_daudio_ref.xml ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}/nxbtservice_config.xml
-	fi
-}
-
-function unpackage_bt_service_application()
-{
-	local app_name=NxBTService
-	if [ -d ${RESULT_DIR}/${QT_APP_ROOT}/${app_name} ]; then
-		rm -rfvR ${RESULT_DIR}/${QT_APP_ROOT}/${app_name}
 	fi
 }
 
