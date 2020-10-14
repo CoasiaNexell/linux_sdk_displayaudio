@@ -51,39 +51,39 @@ enum {
 #define NXLOG_FACILITY  LOG_USER
 #endif
 
-#define NXLOGV(...) do { \
+#define NXLOGV(fmt, ...) do { \
 	    openlog(LOG_TAG"/V ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_DEBUG, ##__VA_ARGS__); \
+	    syslog(NXLOG_VERBOSE, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
-#define NXLOGD(...) do { \
+#define NXLOGD(fmt, ...) do { \
 	    openlog(LOG_TAG"/D ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_DEBUG, ##__VA_ARGS__); \
+	    syslog(LOG_DEBUG, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
-#define NXLOGI(...) do { \
+#define NXLOGI(fmt, ...) do { \
 	    openlog(LOG_TAG"/I ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_INFO, ##__VA_ARGS__); \
+	    syslog(LOG_INFO, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
-#define NXLOGN(...) do { \
+#define NXLOGN(fmt, ...) do { \
 	    openlog(LOG_TAG"/N ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_NOTICE, ##__VA_ARGS__); \
+	    syslog(LOG_NOTICE, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
-#define NXLOGW(...) do { \
+#define NXLOGW(fmt, ...) do { \
 	    openlog(LOG_TAG"/W ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_WARNING, ##__VA_ARGS__); \
+	    syslog(LOG_WARNING, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
-#define NXLOGE(...) do { \
+#define NXLOGE(fmt, ...) do { \
 	    openlog(LOG_TAG"/E ", NXLOG_OPTION, NXLOG_FACILITY); \
-	    syslog(LOG_ERR, ##__VA_ARGS__); \
+	    syslog(LOG_ERR, fmt, ##__VA_ARGS__); \
 	    closelog(); \
 	} while(0)
 
