@@ -331,6 +331,7 @@ void *CNX_DAudioStatus::ThreadStub(void *pObj)
 		((CNX_DAudioStatus *)pObj)->ThreadProc();
 		pthread_join(((CNX_DAudioStatus *)pObj)->m_hInitThread, NULL);
 	}
+	return (void*)0xdeadface;
 }
 
 void CNX_DAudioStatus::ThreadProc()
