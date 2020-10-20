@@ -13,9 +13,9 @@
 
 #include "CNX_BaseClass.h"
 #include "NX_CCommand.h"
-#include <NX_Log.h>
 
 #define LOG_TAG "[NX_CCommand]"
+#include <NX_Log.h>
 
 #define POLL_TIMEOUT_MS		(2000)
 
@@ -107,9 +107,14 @@ void  NX_CCommand::ThreadProc()
 				fd_cmd  = open( m_pStopCmdFileName, O_RDWR );
 				if(fd_cmd != 0)
 				{
+					ssize_t written;
 					send_command = 1;
 					NXLOGI("[RearCam] : Send [ stop ] to [QuickRearCam]\n");
-					write(fd_cmd, "quick_stop", sizeof("quick_stop") );
+					written = write(fd_cmd, "quick_stop", sizeof("quick_stop") );
+					if( written != sizeof("quick_stop") )
+					{
+						NXLOGE("Error wirte(quick_stop) error!!\n");
+					}
 					usleep(2000000);					
 				}else
 				{
@@ -123,7 +128,7 @@ void  NX_CCommand::ThreadProc()
 					poll_fds.fd = fd_cmd;
 					poll_fds.events = POLLIN;
 
-					poll_ret = poll( &poll_fds, 2, POLL_TIMEOUT_MS );
+					poll_ret = poll( &poll_fds, 1, POLL_TIMEOUT_MS );
 					if( poll_ret == 0 )
 					{
 						//printf("Poll Timeout\n");
@@ -135,7 +140,7 @@ void  NX_CCommand::ThreadProc()
 					}
 					else
 					{
-						int i, read_size;
+						int  read_size;
 
 						if( poll_fds.revents & POLLIN )
 						{
@@ -188,11 +193,18 @@ void NX_StopCommandService(void *pObj, char *m_pCtrlFileName)
 	
 	if(m_pCtrlFileName != NULL)
 	{
+		ssize_t written;
 		fd_status = open(m_pCtrlFileName, O_RDWR);
 
-		write(fd_status, "stopped", sizeof("stopped"));
-
-		close( fd_status );
+		if( fd_status != -1 )
+		{
+			written = write(fd_status, "stopped", sizeof("stopped"));
+			if( written != sizeof("stopped") )
+			{
+				NXLOGE("Error write(stopped) failed!!!\n");
+			}
+			close( fd_status );
+		}
 	}
 }
 
