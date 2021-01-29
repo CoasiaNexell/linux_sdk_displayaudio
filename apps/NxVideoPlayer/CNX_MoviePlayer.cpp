@@ -679,10 +679,7 @@ int CNX_MoviePlayer::AddTrackForVideo()
 	}
 
 	//audio
-	if( 0 > AddTrackForAudio() )
-	{
-		return -1;
-	}
+	AddTrackForAudio();
 
 	return 0;
 }
