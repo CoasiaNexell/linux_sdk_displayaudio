@@ -37,6 +37,8 @@ enum {
 	MP_MSG_EOS								= 0x1000,
 	MP_MSG_VIDEO_SAMPLE_ARRIVAL,
 	MP_MSG_AUDIO_RENDER_UNDERRUN,
+	MP_MSG_STREAM_READY,					// stream ready
+                                            // reference NX_MPSetStreamType()
 
 	MP_MSG_DEMUX_ERR						= 0x8000,
 	MP_MSG_VIDEO_DECODER_ERR,
@@ -184,6 +186,7 @@ MP_RESULT	NX_MPSetAVSync( MP_HANDLE hMp, int64_t syncTimeMs ); //syncTime +,-, m
 //Used for large files
 //On:1, Off:0
 MP_RESULT NX_MPSetFastSeek( MP_HANDLE hMp, int32_t  bOnOff);  //only .mp3
+MP_RESULT NX_MPSetDeinterlace( MP_HANDLE hMp );  //only nxp4330, use before addvideotrack
 #endif
 
 //Dual Display
@@ -195,6 +198,7 @@ MP_RESULT	NX_MPSetAudioStreamType( MP_HANDLE hMp, int32_t iStreamType );
 #else
 MP_RESULT 	NX_MPSetVolume( MP_HANDLE hMp, int32_t iLevel );		// 0% ~ 100%
 #endif
+MP_RESULT	NX_MPSetStreamType( MP_HANDLE hMp, int32_t  iStreamType); //0:normal 1:buffering ready
 
 //------------------------------------------------------------------------------
 //
@@ -211,6 +215,7 @@ void		NX_MPChgDebugLevel( int32_t iLevel );	// 0(Verbose), 1(Debug), 2(Info), 3(
 int32_t		NX_GetState( MP_HANDLE hMp );
 
 void		NX_MPVideoMute( MP_HANDLE hMp, int32_t bOnoff, MP_DSP_CONFIG *pInfo);
+
 int32_t 	NX_MPGetPlaneForDisplay( int crtcIdx, int layerIdx, int32_t findRgb, MP_DRM_PLANE_INFO *pDrmPlaneInfo );
 
 #ifdef __cplusplus
