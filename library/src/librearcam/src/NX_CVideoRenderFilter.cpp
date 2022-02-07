@@ -575,6 +575,7 @@ void NX_CVideoRenderFilter::ThreadProc( void )
 	NxDbgMsg( NX_DBG_VBS, "%s()++\n", __FUNCTION__ );
 
 	NX_CSample *pSample = NULL;
+	NX_CSample *pPrevSample = NULL;
 
 #if STREAM_CAPTURE
 	pf_dump = fopen("/sdcard/interlace_test/dump.yuv", "wb");
@@ -602,12 +603,13 @@ void NX_CVideoRenderFilter::ThreadProc( void )
 			continue;
 		}
 
-		{
-			Render( pSample );
+		Render( pSample );
 
-			pSample->Unlock();
+		if( pPrevSample )
+			pPrevSample->Unlock();
 
-		}
+		pPrevSample = pSample;
+
 #if DISPLAY_FPS
 		iDspCnt++;
 		if( iDspCnt == iGatheringCnt ) {
@@ -618,8 +620,12 @@ void NX_CVideoRenderFilter::ThreadProc( void )
 			iDspCnt = 0;
 			iStartTime = now_ms();
 		}
-
 #endif
+	}
+
+	if( pPrevSample )
+	{
+		pPrevSample->Unlock();
 	}
 
 	NxDbgMsg( NX_DBG_VBS, "%s()--\n", __FUNCTION__ );
